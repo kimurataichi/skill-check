@@ -1,6 +1,13 @@
 package q003;
 
+import java.io.BufferedReader;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Q003 集計と並べ替え
@@ -26,6 +33,62 @@ ignorance=1
  * http://eikaiwa.dmm.com/blog/4690/
  */
 public class Q003 {
+	// 区切り文字
+	private static final String DELIMITER = "\\,|\\.|[\\s]|\\–";
+
+    public static void main(String[] args) {
+    	Map<String, Integer> data = new HashMap<>();
+
+		try {
+			InputStreamReader reader = new InputStreamReader(openDataFile(), "utf-8");
+			 BufferedReader br = new BufferedReader(reader);
+			 String line;
+			 line = br.readLine();
+
+			 while (line) {
+				 String[] words = line.split(DELIMITER);
+				 for (String word : words) {
+					 // 小文字に変換
+					 if (!word.equals("I")) {
+						 word = word.toLowerCase();
+					 }
+
+					 // 単語カウント
+					 if (!word.isEmpty()) {
+						 if (data.containsKey(word)) {
+							 int count = data.get(word) + 1;
+							 data.put(word, count);
+						 } else {
+							 data.put(word, 1);
+						 }
+					 }
+				 }
+				 line = br.readLine();
+			 }
+		} catch (Exception e) {
+			 e.printStackTrace();
+		}
+
+
+		// ソート
+		List<String> mapkey = new ArrayList<>(data.keySet());
+	    Collections.sort(mapkey, new java.util.Comparator<String>() {
+	        @Override
+	        public int compare(String data1, String data2) {
+	        	String key1 = data1.toLowerCase();
+	        	String key2 = data2.toLowerCase();
+	        	return key1.compareTo(key2);
+	        }
+	    });
+
+		// 表示
+		for (String key : mapkey) {
+			System.out.println(key + " = " + data.get(key));
+		}
+    }
+
+
+
     /**
      * データファイルを開く
      * resources/q003/data.txt
@@ -34,4 +97,4 @@ public class Q003 {
         return Q003.class.getResourceAsStream("data.txt");
     }
 }
-// 完成までの時間: xx時間 xx分
+// 完成までの時間: 02時間 00分

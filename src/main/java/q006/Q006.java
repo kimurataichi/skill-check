@@ -51,4 +51,4 @@ public class Q006 {
         return resultList;
     }
 }
-// 完成までの時間: xx時間 xx分
+// 完成までの時間: 自力で解くことが出来ませんでした。
